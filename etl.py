@@ -82,7 +82,6 @@ def process_log_file(cur, filepath):
             songid, artistid = results
         else:
             songid, artistid = None, None
-            continue
         # insert songplay record
         timestamp = row.ts
         level = row.level

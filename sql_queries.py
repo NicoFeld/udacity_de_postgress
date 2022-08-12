@@ -8,14 +8,14 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 # CREATE TABLES
 songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays (
-    song_id varchar(50) NOT NULL,
+    songplay_id SERIAL PRIMARY KEY,
+    song_id varchar(50),
     start_time timestamp NOT NULL,
-    user_id varchar(50) NOT NULL,
-    artist_id varchar(50) NOT NULL,
+    user_id int NOT NULL,
+    artist_id varchar(50),
     session_id int NOT NULL,
     location varchar(100),
-    user_agent varchar(200),
-    PRIMARY KEY (song_id, session_id)
+    user_agent varchar(200)
 )""")
 
 user_table_create = ("""
@@ -79,7 +79,8 @@ INSERT INTO users(
     gender,
     level)
     VALUES (%s,%s,%s,%s,%s)
-    ON CONFLICT DO NOTHING
+    ON CONFLICT (user_id) DO UPDATE 
+    SET level = EXCLUDED.level;
 """)
 
 song_table_insert = ("""
